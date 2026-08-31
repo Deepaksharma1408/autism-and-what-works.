@@ -30,15 +30,60 @@
   background: #94A3B8;
 }
 
-/* Staggered Page-Load Reveal Keyframes (600ms-1000ms easing) */
-.reveal-up {
-  animation: revealUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* Staggered Cinematic Page-Load Assembly Animation Keyframes */
+.hero-assembly-visual {
+  animation: assembleVisual 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes revealUp {
+.hero-assembly-sec1 {
+  animation: assembleSec1 0.95s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-assembly-sec2 {
+  animation: assembleSec2 1.05s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-assembly-headline {
+  animation: assembleHeadline 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes assembleVisual {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: scale(0.92) translateY(36px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes assembleSec1 {
+  from {
+    opacity: 0;
+    transform: translateX(45px) translateY(-20px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateY(0) scale(1);
+  }
+}
+
+@keyframes assembleSec2 {
+  from {
+    opacity: 0;
+    transform: translateX(-45px) translateY(30px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateY(0) scale(1);
+  }
+}
+
+@keyframes assembleHeadline {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
   }
   to {
     opacity: 1;
@@ -46,71 +91,58 @@
   }
 }
 
-.reveal-fade {
-  animation: revealFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* Continuous Micro-Motion Floating Keyframes for Layered Composition */
+.hero-micro-main {
+  animation: heroMicroMain 5.5s ease-in-out infinite;
 }
 
-@keyframes revealFade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.hero-micro-sec1 {
+  animation: heroMicroSec1 6.8s ease-in-out infinite;
 }
 
-/* Layered Parallax Floating Motion */
-.animate-layer-float-1 {
-  animation: layerFloat1 5s ease-in-out infinite;
+.hero-micro-sec2 {
+  animation: heroMicroSec2 7.8s ease-in-out infinite;
 }
 
-.animate-layer-float-2 {
-  animation: layerFloat2 6.5s ease-in-out infinite;
+.hero-glow-pulse {
+  animation: heroGlowPulse 8s ease-in-out infinite;
 }
 
-.animate-layer-float-3 {
-  animation: layerFloat3 7.5s ease-in-out infinite;
-}
-
-.animate-glow-pulse {
-  animation: glowPulse 7s ease-in-out infinite;
-}
-
-@keyframes layerFloat1 {
+@keyframes heroMicroMain {
   0%, 100% {
-    transform: translateY(0px) rotate(0deg);
+    transform: translateY(0px);
   }
   50% {
-    transform: translateY(-8px) rotate(0.8deg);
+    transform: translateY(-8px);
   }
 }
 
-@keyframes layerFloat2 {
+@keyframes heroMicroSec1 {
   0%, 100% {
-    transform: translateY(0px) rotate(0deg);
+    transform: translateY(0px) rotate(4deg);
   }
   50% {
-    transform: translateY(10px) rotate(-0.8deg);
+    transform: translateY(-12px) rotate(5.5deg);
   }
 }
 
-@keyframes layerFloat3 {
+@keyframes heroMicroSec2 {
   0%, 100% {
-    transform: translateY(0px) rotate(0deg);
+    transform: translateY(0px) rotate(-3deg);
   }
   50% {
-    transform: translateY(-6px) rotate(-0.5deg);
+    transform: translateY(9px) rotate(-4.2deg);
   }
 }
 
-@keyframes glowPulse {
+@keyframes heroGlowPulse {
   0%, 100% {
-    opacity: 0.45;
+    opacity: 0.4;
     transform: scale(1);
   }
   50% {
-    opacity: 0.75;
-    transform: scale(1.06);
+    opacity: 0.7;
+    transform: scale(1.08);
   }
 }
 
@@ -119,11 +151,11 @@
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease;
 }
 .button-lift:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 14px 28px -6px rgba(255, 122, 89, 0.32);
+  transform: translateY(-3px) scale(1.015);
+  box-shadow: 0 16px 32px -6px rgba(255, 122, 89, 0.35);
 }
 .button-lift:active {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.99);
   box-shadow: 0 4px 12px -2px rgba(255, 122, 89, 0.2);
 }
 
@@ -131,18 +163,8 @@
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.09);
-}
-
-.image-zoom {
-  overflow: hidden;
-}
-.image-zoom img {
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.image-zoom:hover img {
-  transform: scale(1.05);
+  transform: translateY(-5px);
+  box-shadow: 0 24px 48px -12px rgba(15, 23, 42, 0.12);
 }
 
 /* Accessibility - Prefers Reduced Motion */
@@ -153,11 +175,13 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .animate-layer-float-1,
-  .animate-layer-float-2,
-  .animate-layer-float-3,
-  .animate-glow-pulse,
-  .reveal-up {
+  .hero-assembly-visual,
+  .hero-assembly-sec1,
+  .hero-assembly-sec2,
+  .hero-micro-main,
+  .hero-micro-sec1,
+  .hero-micro-sec2,
+  .hero-glow-pulse {
     animation: none !important;
     transform: none !important;
   }

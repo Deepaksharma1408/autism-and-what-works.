@@ -1,73 +1,194 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useStore } from '../context/StoreContext';
-import { Sparkles, ArrowRight, ShieldCheck, Star, Truck, CheckCircle2, Heart, Award } from 'lucide-react';
+import { Sparkles, ArrowRight, ShieldCheck, Star, Truck, Check, Eye, Heart, ShoppingBag } from 'lucide-react';
 
-const HERO_FEATURED_TABS = [
+const HERO_COMPOSITIONS = [
   {
-    id: 'sensory-regulation',
-    label: 'Sensory Regulation',
-    title: 'School Support Sensory Starter Pack',
-    subtitle: 'Quiet Classroom Focus & Self-Regulation',
-    badge: '🌈 Popular Choice',
-    price: '$49.99 AUD',
-    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=1000'
+    id: 'school-support',
+    categoryLabel: 'School Support',
+    headline: 'Products That Help Children Feel, Learn & Thrive',
+    subtitle: 'Thoughtfully selected sensory, educational and everyday support products for children, families and educators.',
+    mainProduct: {
+      title: 'School Support Sensory Starter Pack',
+      subtitle: 'Classroom Focus & Quiet Fidgets',
+      price: '$49.99 AUD',
+      rating: 5.0,
+      image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=1000'
+    },
+    secCard1: {
+      title: 'Pencil Pal Grips',
+      subtitle: 'Tripod Posture Aid',
+      price: '$11.50 AUD',
+      image: 'https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&q=80&w=600'
+    },
+    secCard2: {
+      title: '3D A-Maze Ball',
+      subtitle: 'Quiet Homework Focus',
+      price: '$18.99 AUD',
+      image: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&q=80&w=600'
+    },
+    floatingTag: '✨ Classroom Regulation'
   },
   {
     id: 'oral-chewelry',
-    label: 'Oral Chewelry',
-    title: 'Silicone Chewelry Pendant Necklace',
-    subtitle: '100% Food-Grade Safe Oral Input',
-    badge: '👅 100% Food Safe',
-    price: '$16.50 AUD',
-    image: 'https://images.unsplash.com/photo-1611591475140-be3a9f0290c0?auto=format&fit=crop&q=80&w=1000'
+    categoryLabel: 'Oral Chewelry',
+    headline: 'Safe Food-Grade Chewelry & Oral Input Tools',
+    subtitle: '100% silicone chew pendants designed for children who chew collars, sleeves, or pencils.',
+    mainProduct: {
+      title: 'Silicone Chewelry Pendant Necklace',
+      subtitle: 'Breakaway Safety Clasp • BPA Free',
+      price: '$16.50 AUD',
+      rating: 4.8,
+      image: 'https://images.unsplash.com/photo-1611591475140-be3a9f0290c0?auto=format&fit=crop&q=80&w=1000'
+    },
+    secCard1: {
+      title: 'Car Silicone Meal Tray',
+      subtitle: 'Non-Slip Divided Plate',
+      price: '$24.50 AUD',
+      image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=600'
+    },
+    secCard2: {
+      title: 'Kids Ergonomic Cutlery',
+      subtitle: 'Tactile Mealtime Support',
+      price: '$15.99 AUD',
+      image: 'https://images.unsplash.com/photo-1576867757603-05b134ebc379?auto=format&fit=crop&q=80&w=600'
+    },
+    floatingTag: '👅 100% Food Safe'
   },
   {
-    id: 'fidgets-toys',
-    label: 'Fidget & Spatial',
-    title: '3D A-Maze Ball & Tactile Fidgets',
-    subtitle: 'Develops Concentration & Fine Motor Dexterity',
-    badge: '✨ Quiet Focus',
-    price: '$18.99 AUD',
-    image: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&q=80&w=1000'
+    id: 'calm-down',
+    categoryLabel: 'Calm Down & Rest',
+    headline: 'Visual Motions & Calming Tools for Decompression',
+    subtitle: 'Rhythmic liquid timers and squishy tactile tools that soothe anxiety and support self-regulation.',
+    mainProduct: {
+      title: 'Cosmic Calmer Liquid Motion Timer',
+      subtitle: 'Mesmerizing Soothing Rhythm',
+      price: '$15.99 AUD',
+      rating: 5.0,
+      image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=1000'
+    },
+    secCard1: {
+      title: 'Amoeba Stress Reliever',
+      subtitle: 'Micro-Bead Tactile Gel',
+      price: '$12.99 AUD',
+      image: 'https://images.unsplash.com/photo-1530325553241-4f6e7690cf36?auto=format&fit=crop&q=80&w=600'
+    },
+    secCard2: {
+      title: 'Classic Brass Kaleidoscope',
+      subtitle: 'Visual Tracking & Focus',
+      price: '$19.95 AUD',
+      image: 'https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&q=80&w=600'
+    },
+    floatingTag: '🌙 Bedtime Decompression'
   },
   {
-    id: 'therapy-kits',
-    label: 'Deep Pressure Kits',
-    title: 'Movement & Deep Pressure Kit Bundle',
-    subtitle: 'Proprioceptive Decompression at Home',
-    badge: '📦 Value Bundle',
-    price: '$89.00 AUD',
-    image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1000'
+    id: 'deep-pressure',
+    categoryLabel: 'Deep Pressure Kits',
+    headline: 'Proprioceptive Movement & Heavy Work Bundles',
+    subtitle: 'Assembled by parents to deliver soothing deep pressure input for high-energy moments at home.',
+    mainProduct: {
+      title: 'Movement & Deep Pressure Kit Bundle',
+      subtitle: '4 Proprioceptive Regulation Tools',
+      price: '$89.00 AUD',
+      rating: 5.0,
+      image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1000'
+    },
+    secCard1: {
+      title: 'Pop Tube Pack (6 Piece)',
+      subtitle: 'Stretch & Snap Heavy Work',
+      price: '$14.95 AUD',
+      image: 'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&q=80&w=600'
+    },
+    secCard2: {
+      title: 'Detangling Hairbrush',
+      subtitle: 'Sensory Scalp Comfort',
+      price: '$21.00 AUD',
+      image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=600'
+    },
+    floatingTag: '📦 Save 20% Bundle'
   }
 ];
 
 export const HeroSection = ({ triggerKey = 0 }) => {
-  const { navigateToCollection } = useStore();
-  const [activeTabIdx, setActiveTabIdx] = useState(0);
-  const [scrollTranslate, setScrollTranslate] = useState(0);
-  const [scrollOpacity, setScrollOpacity] = useState(1);
-  const heroRef = useRef(null);
+  const { navigateToCollection, addToCart, setQuickViewProduct } = useStore();
 
-  // Auto-cycle hero feature tabs crossfade (6s interval)
+  // Active Category State
+  const [activeTabIdx, setActiveTabIdx] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // Mouse 3D Depth Interpolation (Lerp) State
+  const [mousePos, setMousePos] = useState({ targetX: 0, targetY: 0, currentX: 0, currentY: 0 });
+  
+  // Scroll Transformation State
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  const heroContainerRef = useRef(null);
+  const animFrameRef = useRef(null);
+
+  // Auto-cycle compositions every 7 seconds
   useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveTabIdx((prev) => (prev + 1) % HERO_FEATURED_TABS.length);
-    }, 6000);
-    return () => clearInterval(timer);
+    const interval = setInterval(() => {
+      handleTabChange((activeTabIdx + 1) % HERO_COMPOSITIONS.length);
+    }, 7000);
+    return () => clearInterval(interval);
+  }, [activeTabIdx]);
+
+  // Handle Tab Switch with Composition Rearrangement Transition
+  const handleTabChange = (newIdx) => {
+    if (newIdx === activeTabIdx || isTransitioning) return;
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setActiveTabIdx(newIdx);
+      setIsTransitioning(false);
+    }, 280);
+  };
+
+  // Mouse 3D Motion LERP Loop (Desktop Only)
+  useEffect(() => {
+    const updateMouseLerp = () => {
+      setMousePos((prev) => {
+        const dx = prev.targetX - prev.currentX;
+        const dy = prev.targetY - prev.currentY;
+        // Smooth linear interpolation (lerp speed: 0.06)
+        if (Math.abs(dx) < 0.0001 && Math.abs(dy) < 0.0001) return prev;
+        return {
+          ...prev,
+          currentX: prev.currentX + dx * 0.06,
+          currentY: prev.currentY + dy * 0.06
+        };
+      });
+      animFrameRef.current = requestAnimationFrame(updateMouseLerp);
+    };
+
+    animFrameRef.current = requestAnimationFrame(updateMouseLerp);
+    return () => {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    };
   }, []);
 
-  // Lightweight scroll interaction (desktop only, no scroll-jacking)
+  // Desktop Mouse Movement Handler
+  const handleMouseMove = (e) => {
+    if (window.innerWidth < 768 || !heroContainerRef.current) return;
+    const rect = heroContainerRef.current.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2; // -1 to +1
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;  // -1 to +1
+    setMousePos((prev) => ({ ...prev, targetX: x, targetY: y }));
+  };
+
+  const handleMouseLeave = () => {
+    setMousePos((prev) => ({ ...prev, targetX: 0, targetY: 0 }));
+  };
+
+  // Scroll Response Handler (Cinematic separation without scroll-jacking)
   useEffect(() => {
     let ticking = false;
-
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          if (window.innerWidth >= 768 && heroRef.current) {
+          if (window.innerWidth >= 768) {
             const scrollY = window.scrollY;
             if (scrollY < 800) {
-              setScrollTranslate(scrollY * 0.08);
-              setScrollOpacity(Math.max(0, 1 - scrollY / 750));
+              setScrollProgress(scrollY);
             }
           }
           ticking = false;
@@ -80,59 +201,84 @@ export const HeroSection = ({ triggerKey = 0 }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const activeItem = HERO_FEATURED_TABS[activeTabIdx];
+  const comp = HERO_COMPOSITIONS[activeTabIdx];
+
+  // Calculated dynamic transforms based on mouse LERP + scroll
+  const mouseX = mousePos.currentX;
+  const mouseY = mousePos.currentY;
+  const scrollOffset = scrollProgress;
+
+  // Scroll dynamics
+  const textTranslateY = -scrollOffset * 0.12;
+  const textOpacity = Math.max(0, 1 - scrollOffset / 650);
+
+  const mainVisualScale = Math.max(0.92, 1 - scrollOffset * 0.0003);
+  const mainVisualTranslateY = scrollOffset * 0.09;
+  const secCard1ShiftX = scrollOffset * 0.22;
+  const secCard2ShiftX = -scrollOffset * 0.20;
 
   return (
     <section
-      ref={heroRef}
+      ref={heroContainerRef}
       key={triggerKey}
-      className="relative overflow-hidden bg-gradient-to-b from-[#FFFDF8] via-[#F7F9FC] to-[#FFFDF8] pt-6 pb-16 lg:pt-14 lg:pb-24 border-b border-slate-100"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="relative overflow-hidden bg-gradient-to-b from-[#FFFDF8] via-[#F7F9FC] to-[#FFFDF8] pt-6 pb-16 lg:pt-14 lg:pb-24 border-b border-slate-100 min-h-[85vh] flex items-center"
     >
       {/* Background Soft Glow Auras (Layer 0) */}
-      <div className="absolute top-4 left-6 w-80 h-80 bg-[#F2DEFA]/45 rounded-full blur-3xl -z-10 animate-glow-pulse" />
-      <div className="absolute bottom-6 right-8 w-[480px] h-[480px] bg-[#E3F2FD]/55 rounded-full blur-3xl -z-10 animate-glow-pulse" style={{ animationDelay: '2.5s' }} />
-      <div className="absolute top-1/3 left-1/2 w-72 h-72 bg-[#FFEAC7]/45 rounded-full blur-3xl -z-10 animate-glow-pulse" style={{ animationDelay: '5s' }} />
+      <div className="absolute top-4 left-6 w-80 h-80 bg-[#F2DEFA]/40 rounded-full blur-3xl -z-10 hero-glow-pulse" />
+      <div className="absolute bottom-6 right-8 w-[500px] h-[500px] bg-[#E3F2FD]/50 rounded-full blur-3xl -z-10 hero-glow-pulse" style={{ animationDelay: '2.5s' }} />
+      <div className="absolute top-1/3 left-1/2 w-72 h-72 bg-[#FFEAC7]/40 rounded-full blur-3xl -z-10 hero-glow-pulse" style={{ animationDelay: '5s' }} />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           
-          {/* Left Text Column: Content Hierarchy with Staggered Entrance */}
-          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+          {/* LEFT AREA: Content Hierarchy with Staggered Entrance & Cursor Parallax */}
+          <div
+            className="lg:col-span-6 space-y-6 text-center lg:text-left z-20"
+            style={{
+              transform: `translate3d(${mouseX * 6}px, ${mouseY * 6 + textTranslateY}px, 0)`,
+              opacity: textOpacity
+            }}
+          >
             
-            {/* Eyebrow Badge */}
-            <div className="reveal-up inline-flex items-center gap-2 bg-[#FFEAC7]/80 border border-[#D97706]/20 px-4 py-2 rounded-full text-xs font-black text-[#D97706] shadow-sm hover:scale-105 transition-transform cursor-pointer">
+            {/* Eyebrow Badge (Step 2: 150-850ms) */}
+            <div className="hero-assembly-headline inline-flex items-center gap-2 bg-[#FFEAC7]/80 border border-[#D97706]/20 px-4 py-2 rounded-full text-xs font-black text-[#D97706] shadow-sm hover:scale-105 transition-transform cursor-pointer">
               <span className="text-base leading-none">🌈</span>
               <span>Support for Everyday Moments</span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#D97706]"></span>
               <span className="text-slate-700 font-extrabold">Australian Dad-Owned</span>
             </div>
 
-            {/* Main Headline */}
+            {/* Main Headline (Step 3: 300-850ms) */}
             <h1
-              className="reveal-up text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 leading-[1.12] tracking-tight"
-              style={{ animationDelay: '100ms' }}
+              className="hero-assembly-headline text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 leading-[1.12] tracking-tight"
+              style={{ animationDelay: '150ms' }}
             >
-              Products That Help Children{' '}
-              <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#FF7A59] via-[#8E44AD] to-[#0284C7]">
-                Feel, Learn & Thrive
-                <svg className="absolute -bottom-2 left-0 w-full h-3 text-[#FF7A59]/35" viewBox="0 0 100 20" preserveAspectRatio="none">
-                  <path d="M0 15 Q 50 0 100 15" stroke="currentColor" strokeWidth="4" fill="none" />
-                </svg>
-              </span>
+              {comp.headline.split(' ').map((word, wIdx) => {
+                if (['Feel,', 'Learn', '&', 'Thrive', 'Safe', 'Food-Grade', 'Visual', 'Proprioceptive'].includes(word)) {
+                  return (
+                    <span key={wIdx} className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#FF7A59] via-[#8E44AD] to-[#0284C7] mr-2">
+                      {word}{' '}
+                    </span>
+                  );
+                }
+                return <span key={wIdx}>{word} </span>;
+              })}
             </h1>
 
-            {/* Supporting Copy */}
+            {/* Supporting Copy (Step 4: 500-950ms) */}
             <p
-              className="reveal-up text-base sm:text-lg lg:text-xl text-slate-600 font-medium max-w-2xl mx-auto lg:mx-0 leading-relaxed"
-              style={{ animationDelay: '200ms' }}
+              className="hero-assembly-headline text-base sm:text-lg lg:text-xl text-slate-600 font-medium max-w-2xl mx-auto lg:mx-0 leading-relaxed"
+              style={{ animationDelay: '300ms' }}
             >
-              Thoughtfully selected sensory, educational and everyday support products for children, families and educators.
+              {comp.subtitle}
             </p>
 
             {/* Value Callouts Pill Grid */}
             <div
-              className="reveal-up grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 text-left max-w-xl mx-auto lg:mx-0"
-              style={{ animationDelay: '300ms' }}
+              className="hero-assembly-headline grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 text-left max-w-xl mx-auto lg:mx-0"
+              style={{ animationDelay: '420ms' }}
             >
               <div className="flex items-center gap-2.5 bg-white/90 backdrop-blur-md p-3 rounded-2xl border border-slate-200/80 shadow-soft-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
                 <div className="w-8 h-8 rounded-xl bg-[#F2DEFA] text-[#8E44AD] flex items-center justify-center shrink-0 font-bold text-sm">
@@ -156,10 +302,10 @@ export const HeroSection = ({ triggerKey = 0 }) => {
               </div>
             </div>
 
-            {/* Dual Action CTAs */}
+            {/* Dual Action CTAs (Step 5: 650-1100ms) */}
             <div
-              className="reveal-up flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-3"
-              style={{ animationDelay: '400ms' }}
+              className="hero-assembly-headline flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-3"
+              style={{ animationDelay: '550ms' }}
             >
               <button
                 onClick={() => navigateToCollection(null, 'sensory-regulation')}
@@ -180,8 +326,8 @@ export const HeroSection = ({ triggerKey = 0 }) => {
 
             {/* Social Proof Bar */}
             <div
-              className="reveal-up flex items-center justify-center lg:justify-start gap-4 pt-2"
-              style={{ animationDelay: '500ms' }}
+              className="hero-assembly-headline flex items-center justify-center lg:justify-start gap-4 pt-2"
+              style={{ animationDelay: '680ms' }}
             >
               <div className="flex -space-x-2.5">
                 <img className="w-10 h-10 rounded-full border-2 border-white object-cover shadow-sm" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=120" alt="Customer avatar" />
@@ -201,100 +347,132 @@ export const HeroSection = ({ triggerKey = 0 }) => {
 
           </div>
 
-          {/* Right Column: Layered Product Composition with Crossfades & Depth */}
-          <div
-            className="lg:col-span-5 relative reveal-up"
-            style={{
-              animationDelay: '200ms',
-              transform: `translateY(${scrollTranslate}px)`,
-              opacity: scrollOpacity
-            }}
-          >
-            <div className="relative mx-auto max-w-md lg:max-w-none">
+          {/* RIGHT AREA: Multi-Layered Product Composition with 3D Depth & Scroll Separation */}
+          <div className="lg:col-span-6 relative">
+            <div className="relative mx-auto max-w-lg lg:max-w-none">
               
-              {/* Category Selector Tabs Bar above Visual Composition */}
-              <div className="flex items-center gap-1.5 p-1.5 bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200/80 shadow-soft-sm mb-4 overflow-x-auto no-scrollbar">
-                {HERO_FEATURED_TABS.map((tab, idx) => (
+              {/* Category Rearrangement Tabs Selector */}
+              <div className="flex items-center gap-1.5 p-1.5 bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200/80 shadow-soft-sm mb-6 overflow-x-auto no-scrollbar relative z-30">
+                {HERO_COMPOSITIONS.map((tab, idx) => (
                   <button
                     key={tab.id}
-                    onClick={() => setActiveTabIdx(idx)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all whitespace-nowrap ${
+                    onClick={() => handleTabChange(idx)}
+                    className={`px-3.5 py-2 rounded-xl text-xs font-extrabold transition-all whitespace-nowrap ${
                       activeTabIdx === idx
                         ? 'bg-[#FF7A59] text-white shadow-sm'
                         : 'text-slate-600 hover:bg-slate-100'
                     }`}
                   >
-                    {tab.label}
+                    {tab.categoryLabel}
                   </button>
                 ))}
               </div>
 
-              {/* Layered Showcase Card Container (Layer 1) */}
-              <div className="relative rounded-[32px] p-2.5 bg-gradient-to-tr from-[#FF7A59] via-[#8E44AD] to-[#0284C7] shadow-2xl">
-                <div className="relative rounded-[24px] overflow-hidden bg-white">
-                  
-                  {/* Main Product Photography Crossfade */}
-                  <div className="relative h-[410px] sm:h-[480px] overflow-hidden bg-slate-100">
-                    <img
-                      key={activeItem.image}
-                      src={activeItem.image}
-                      alt={activeItem.title}
-                      className="w-full h-full object-cover transition-all duration-700 animate-in fade-in zoom-in-95"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/10 to-transparent" />
-                  </div>
+              {/* Layered Composition Stage */}
+              <div
+                className={`relative transition-all duration-300 ${
+                  isTransitioning ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+                }`}
+              >
 
-                  {/* Layer 2: Floating Pill Top-Left (Independent Depth Motion) */}
-                  <div className="absolute top-5 left-5 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-3 animate-layer-float-1">
-                    <div className="w-10 h-10 rounded-xl bg-[#F2DEFA] text-[#8E44AD] flex items-center justify-center font-bold text-lg shadow-sm">
-                      ✨
-                    </div>
-                    <div>
-                      <span className="text-xs font-black text-slate-900 block line-clamp-1">{activeItem.title}</span>
-                      <span className="text-[10px] font-bold text-[#8E44AD]">{activeItem.subtitle}</span>
-                    </div>
-                  </div>
-
-                  {/* Layer 3: Floating Pill Bottom-Right (Counter Depth Motion) */}
-                  <div className="absolute bottom-6 right-5 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-slate-100 max-w-[240px] animate-layer-float-2">
-                    <div className="flex items-center justify-between gap-2 mb-1">
-                      <div className="flex items-center gap-1.5">
-                        <ShieldCheck className="w-4 h-4 text-[#FF7A59]" />
-                        <span className="text-xs font-black text-slate-900">Safety Approved</span>
-                      </div>
-                      <span className="text-xs font-black text-[#FF7A59]">{activeItem.price}</span>
-                    </div>
-                    <p className="text-[11px] text-slate-500 font-medium leading-tight">
-                      BPA-Free, 100% food-grade silicone & sensory approved.
-                    </p>
-                  </div>
-
-                  {/* Bottom Indicator Dots */}
-                  <div className="absolute bottom-5 left-5 flex items-center gap-2 z-10">
-                    {HERO_FEATURED_TABS.map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setActiveTabIdx(i)}
-                        className={`h-2.5 rounded-full transition-all ${
-                          activeTabIdx === i ? 'w-7 bg-[#FF7A59]' : 'w-2.5 bg-white/60 hover:bg-white'
-                        }`}
-                        aria-label={`Select tab ${i + 1}`}
+                {/* LAYER 1: Central Primary Product Card */}
+                <div
+                  className="hero-assembly-visual hero-micro-main relative z-20 rounded-[32px] p-2 bg-gradient-to-tr from-[#FF7A59] via-[#8E44AD] to-[#0284C7] shadow-2xl transition-transform duration-100"
+                  style={{
+                    transform: `translate3d(${mouseX * 18}px, ${mouseY * 18 + mainVisualTranslateY}px, 0) scale(${mainVisualScale}) rotateX(${-mouseY * 5}deg) rotateY(${mouseX * 5}deg)`
+                  }}
+                >
+                  <div className="relative rounded-[26px] overflow-hidden bg-white">
+                    <div className="relative h-[340px] sm:h-[400px] overflow-hidden bg-slate-100">
+                      <img
+                        src={comp.mainProduct.image}
+                        alt={comp.mainProduct.title}
+                        className="w-full h-full object-cover"
                       />
-                    ))}
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/15 to-transparent" />
+                    </div>
+
+                    {/* Main Card Content Overlay */}
+                    <div className="absolute bottom-0 inset-x-0 p-5 sm:p-6 text-white flex items-end justify-between gap-4">
+                      <div>
+                        <span className="inline-block bg-white/20 backdrop-blur-md text-white text-[11px] font-extrabold px-3 py-1 rounded-full mb-2">
+                          {comp.floatingTag}
+                        </span>
+                        <h3 className="text-lg sm:text-xl font-black drop-shadow-sm leading-snug">
+                          {comp.mainProduct.title}
+                        </h3>
+                        <p className="text-xs text-white/80 font-medium line-clamp-1 mt-0.5">
+                          {comp.mainProduct.subtitle}
+                        </p>
+                      </div>
+
+                      <div className="text-right shrink-0">
+                        <span className="text-lg font-black text-white block">
+                          {comp.mainProduct.price}
+                        </span>
+                        <button
+                          onClick={() => navigateToCollection(null, null)}
+                          className="mt-1 px-3 py-1.5 rounded-xl bg-[#FF7A59] hover:bg-[#E86645] text-white font-extrabold text-xs shadow-md button-lift flex items-center gap-1"
+                        >
+                          <ShoppingBag className="w-3.5 h-3.5" />
+                          <span>View</span>
+                        </button>
+                      </div>
+                    </div>
+
                   </div>
+                </div>
 
+                {/* LAYER 2: Secondary Overlapping Card 1 (Top-Right Depth Offset) */}
+                <div
+                  className="hero-assembly-sec1 hero-micro-sec1 absolute -top-8 -right-4 sm:-right-8 z-30 w-52 sm:w-60 bg-white rounded-2xl p-3 border border-slate-200/80 shadow-xl hidden sm:block transition-transform duration-100"
+                  style={{
+                    transform: `translate3d(${mouseX * 38 + secCard1ShiftX}px, ${mouseY * 38}px, 0) rotate(4.5deg)`
+                  }}
+                >
+                  <div className="relative h-28 rounded-xl overflow-hidden bg-slate-50 mb-2">
+                    <img
+                      src={comp.secCard1.image}
+                      alt={comp.secCard1.title}
+                      className="w-full h-full object-cover"
+                    />
+                    <span className="absolute top-2 right-2 bg-slate-900/80 backdrop-blur-sm text-white text-[10px] font-extrabold px-2 py-0.5 rounded-md">
+                      {comp.secCard1.price}
+                    </span>
+                  </div>
+                  <h4 className="text-xs font-black text-slate-900 line-clamp-1">
+                    {comp.secCard1.title}
+                  </h4>
+                  <p className="text-[10px] text-slate-500 font-semibold line-clamp-1">
+                    {comp.secCard1.subtitle}
+                  </p>
                 </div>
-              </div>
 
-              {/* Layer 4: Independent Floating Dispatch Badge Bottom Left */}
-              <div className="absolute -bottom-6 -left-6 bg-white p-3.5 rounded-2xl shadow-xl border border-slate-100 hidden sm:flex items-center gap-3 animate-layer-float-3">
-                <div className="w-9 h-9 rounded-xl bg-[#E0F2FE] text-[#0284C7] flex items-center justify-center font-bold">
-                  <Truck className="w-5 h-5" />
+                {/* LAYER 3: Secondary Overlapping Card 2 (Bottom-Left Depth Offset) */}
+                <div
+                  className="hero-assembly-sec2 hero-micro-sec2 absolute -bottom-8 -left-4 sm:-left-8 z-30 w-52 sm:w-60 bg-white rounded-2xl p-3 border border-slate-200/80 shadow-xl hidden sm:block transition-transform duration-100"
+                  style={{
+                    transform: `translate3d(${mouseX * 24 + secCard2ShiftX}px, ${mouseY * 24}px, 0) rotate(-3.5deg)`
+                  }}
+                >
+                  <div className="relative h-28 rounded-xl overflow-hidden bg-slate-50 mb-2">
+                    <img
+                      src={comp.secCard2.image}
+                      alt={comp.secCard2.title}
+                      className="w-full h-full object-cover"
+                    />
+                    <span className="absolute top-2 right-2 bg-[#8E44AD] text-white text-[10px] font-extrabold px-2 py-0.5 rounded-md">
+                      {comp.secCard2.price}
+                    </span>
+                  </div>
+                  <h4 className="text-xs font-black text-slate-900 line-clamp-1">
+                    {comp.secCard2.title}
+                  </h4>
+                  <p className="text-[10px] text-slate-500 font-semibold line-clamp-1">
+                    {comp.secCard2.subtitle}
+                  </p>
                 </div>
-                <div>
-                  <span className="text-xs font-extrabold text-slate-900 block">Fast Dispatch</span>
-                  <span className="text-[10px] text-slate-400 font-semibold">Sydney Warehouse • In Stock</span>
-                </div>
+
               </div>
 
             </div>
