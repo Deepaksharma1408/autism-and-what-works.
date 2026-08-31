@@ -1,0 +1,24 @@
+{% comment %}
+  Shop by Need Architecture Snippet
+  Metafield namespace: product.metafields.custom.needs (list.single_line_text_field)
+  Possible Values:
+    - sensory-regulation
+    - chewing
+    - calm-down
+    - school
+    - travel
+    - fine-motor
+    - safety
+    - communication
+    - educational
+{% endcomment %}
+{% assign product_needs = product.metafields.custom.needs.value %}
+{% if product_needs %}
+  <div class="shop-by-need-tags flex flex-wrap gap-1.5 mt-2">
+    {% for need in product_needs %}
+      <span class="inline-block bg-[#F2DEFA] text-[#8E44AD] text-[10px] font-bold px-2 py-0.5 rounded-full">
+        {{ need | replace: '-', ' ' | capitalize }}
+      </span>
+    {% endfor %}
+  </div>
+{% endif %}

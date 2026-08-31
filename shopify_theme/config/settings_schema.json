@@ -1,0 +1,73 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Autism and What Works 2.0 Redesign",
+    "theme_version": "2.0.0",
+    "theme_author": "Deepmind Antigravity Team",
+    "theme_documentation_url": "https://autismandwhatworks.com",
+    "theme_support_url": "https://autismandwhatworks.com"
+  },
+  {
+    "name": "Colors & Sensory Palette",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_bg_primary",
+        "label": "Primary Background Color",
+        "default": "#FFFDF8"
+      },
+      {
+        "type": "color",
+        "id": "color_bg_secondary",
+        "label": "Secondary Background Color",
+        "default": "#F7F9FC"
+      },
+      {
+        "type": "color",
+        "id": "color_brand_primary",
+        "label": "Primary Accent / Button Color",
+        "default": "#FF7A59"
+      },
+      {
+        "type": "color",
+        "id": "color_brand_purple",
+        "label": "Secondary Lavender Accent",
+        "default": "#8E44AD"
+      },
+      {
+        "type": "color",
+        "id": "color_text_primary",
+        "label": "Primary Dark Text",
+        "default": "#1E293B"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "type_header_font",
+        "label": "Heading Font",
+        "default": "poppins_n7"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font",
+        "label": "Body Font",
+        "default": "nunito_n4"
+      }
+    ]
+  },
+  {
+    "name": "Cart Drawer & Shipping Threshold",
+    "settings": [
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Free Shipping Threshold ($ AUD)",
+        "default": 75
+      }
+    ]
+  }
+]

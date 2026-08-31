@@ -1,0 +1,71 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "title": "Find Sensory Tools That Work for Your Child",
+        "subtitle": "Thoughtfully curated sensory toys, educational aids and everyday tools for neurodivergent and autistic children.",
+        "primary_cta_label": "Shop Best Sellers",
+        "secondary_cta_label": "Shop by Need"
+      }
+    },
+    "shop_by_need": {
+      "type": "shop-by-need",
+      "settings": {
+        "title": "Shop by Need",
+        "subtitle": "Start with what your child needs most."
+      }
+    },
+    "best_sellers": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Best Sellers",
+        "collection": "bestsellers",
+        "products_to_show": 4
+      }
+    },
+    "problem_solution": {
+      "type": "problem-solution",
+      "settings": {
+        "title": "Not Sure What You Need?",
+        "subtitle": "Start with the challenge you're trying to solve."
+      }
+    },
+    "bundles": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Made for Real-Life Moments",
+        "collection": "bundles",
+        "products_to_show": 2
+      }
+    },
+    "trust_pillars": {
+      "type": "trust-cards",
+      "settings": {
+        "title": "Why Families Choose Autism and What Works"
+      }
+    },
+    "charity": {
+      "type": "charity-banner",
+      "settings": {
+        "title": "Every Purchase Can Help Support the Community"
+      }
+    },
+    "judgeme_reviews": {
+      "type": "judgeme-carousel",
+      "settings": {
+        "title": "What Parents Are Saying"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "shop_by_need",
+    "best_sellers",
+    "problem_solution",
+    "bundles",
+    "trust_pillars",
+    "charity",
+    "judgeme_reviews"
+  ]
+}
