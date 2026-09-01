@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { PRODUCTS } from '../data/storeData';
 
 const StoreContext = createContext();
@@ -10,21 +10,32 @@ export const StoreProvider = ({ children }) => {
   const [selectedNeedFilter, setSelectedNeedFilter] = useState(null);
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState(null);
 
-  // Cart state
-  const [cartItems, setCartItems] = useState([
-    {
-      product: PRODUCTS[0], // 3D A-Maze Ball
-      quantity: 1
-    },
-    {
-      product: PRODUCTS[2], // Silicone Chewelry Pendant
-      quantity: 2
+  // Persistent Cart State with localStorage
+  const [cartItems, setCartItems] = useState(() => {
+    try {
+      const saved = localStorage.getItem('autism_cart_items');
+      if (saved !== null) {
+        return JSON.parse(saved);
+      }
+    } catch (e) {
+      console.error('Failed to parse cart from localStorage:', e);
     }
-  ]);
+    return []; // Empty cart by default
+  });
+
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
+
+  // Sync cart state to localStorage whenever cartItems changes
+  useEffect(() => {
+    try {
+      localStorage.setItem('autism_cart_items', JSON.stringify(cartItems));
+    } catch (e) {
+      console.error('Failed to save cart to localStorage:', e);
+    }
+  }, [cartItems]);
 
   // Toast Notification
   const [toastMessage, setToastMessage] = useState(null);
